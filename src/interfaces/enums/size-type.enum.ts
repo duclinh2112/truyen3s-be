@@ -1,0 +1,6 @@
+export enum ESizeTypes {
+  E_CARD = 'E_CARD',
+  STANDARD_CARD = 'STANDARD_CARD',
+  LARGE_CARD = 'LARGE_CARD',
+  GIANT_CARD = 'GIANT_CARD'
+}
