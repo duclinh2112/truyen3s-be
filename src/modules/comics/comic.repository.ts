@@ -28,6 +28,28 @@ export class ComicRepository extends Repository<ComicsEntity> {
     return query.getManyAndCount()
   }
 
+  public async getAndCountByIds(
+    ids: string[],
+    pagination: PaginationRequest<QueryRequest>
+  ): Promise<[entity: ComicsEntity[], total: number]> {
+    const { skip, perPage: take, sort, filter } = pagination
+
+    const query = this.createQueryBuilder(TABLE_NAME)
+      .leftJoinAndSelect(`${TABLE_NAME}.author`, 'author')
+      .leftJoinAndSelect(`${TABLE_NAME}.category`, 'category')
+      .leftJoinAndSelect(`${TABLE_NAME}.image`, 'image')
+      .leftJoinAndSelect(`${TABLE_NAME}.childCategories`, 'childCategories')
+      .where(`${TABLE_NAME}.id IN(:...ids)`, { ids })
+      .skip(skip)
+      .take(take)
+
+    applyFilterComic(query, filter, TABLE_NAME)
+    applySort(query, sort, TABLE_NAME)
+    // applyRange(query, range, TABLE_NAME)
+
+    return query.getManyAndCount()
+  }
+
   public getById(id: number): Promise<ComicsEntity> {
     const query = this.createQueryBuilder(TABLE_NAME)
       .leftJoinAndSelect(`${TABLE_NAME}.author`, 'author')

@@ -35,6 +35,7 @@ import { UsersCodeRepository } from 'src/modules/users/repositories/user-code.re
 import { AssetsRepository } from 'src/modules/assets/assets.repository'
 import { UpdateAccountRequestDto } from 'src/modules/users/dtos/update-account.request.dto'
 import { ChangePasswordDto } from 'src/modules/users/dtos/change-password.dto'
+import { CreateUserFromProviderDto } from 'src/modules/users/dtos/create-user-from-provider.dto'
 
 @Injectable()
 export class AuthService {
@@ -381,6 +382,71 @@ export class AuthService {
       }
     } catch (error) {
       throw new CommonException(ErrorType.INTERNAL_SERVER, error.message)
+    }
+  }
+
+  public async loginProvider(
+    userDto: CreateUserFromProviderDto
+  ): Promise<LoginResponseDto> {
+    UserValidate.validateUserProvider(userDto)
+
+    try {
+      let user = await this.usersRepository.findUserByEmail(userDto.email)
+
+      if (!user) {
+        const userRole = await this.rolesRepository.findOne({
+          name: ERoles.USER
+        })
+
+        if (!userRole) {
+          throw new CommonException(
+            ErrorType.ROLE_DOES_NOT_EXISTS,
+            ErrorMessage.ROLE_DOES_NOT_EXISTS
+          )
+        }
+
+        user = UserMapper.toCreateProviderEntity(userDto, [userRole.id])
+        const newUser = await this.usersRepository.save(user)
+        user = await this.usersRepository.findUserByEmail(newUser.email)
+      }
+
+      const payload: JwtPayload = {
+        id: user.id,
+        email: user.email
+      }
+
+      const token = await this.tokenService.generateAuthToken(payload)
+      const userResDto = await UserMapper.toDto(user)
+      const { permissions, roles } = await UserMapper.toDtoWithRelations(user)
+      const additionalPermissions = permissions.map(({ slug }) => slug)
+      const mappedRoles = roles.map(({ name, permissions }) => {
+        const rolePermissions = permissions.map(({ slug }) => slug)
+        return {
+          name: name,
+          permissions: rolePermissions
+        }
+      })
+
+      return {
+        user: userResDto,
+        token: token,
+        access: {
+          additionalPermissions: additionalPermissions,
+          roles: mappedRoles
+        }
+      }
+    } catch (error) {
+      if (error instanceof TimeoutError) {
+        throw new CommonException(
+          ErrorType.REQUEST_TIMEOUT,
+          ErrorMessage.REQUEST_TIMEOUT
+        )
+      }
+
+      throw new CommonException(
+        ErrorType.INTERNAL_SERVER,
+        ErrorMessage.INTERNAL_SERVER
+      )
     }
   }
 }

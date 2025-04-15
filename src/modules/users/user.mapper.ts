@@ -7,6 +7,7 @@ import { UpdateUserIdRequestDto } from './dtos/update-user-id.request.dto'
 import { UpdateUserRequestDto } from './dtos/update-user.request.dto'
 import { UserEntity } from './entities/user.entity'
 import { AssetsEntity } from '../assets/assets.entity'
+import { CreateUserFromProviderDto } from './dtos/create-user-from-provider.dto'
 
 export class UserMapper {
   public static async toDto(
@@ -103,6 +104,25 @@ export class UserMapper {
     entity.birthday = dto.birthday
     entity.password = dto.password
     entity.status = dto.status
+    return entity
+  }
+
+  public static toCreateProviderEntity(
+    dto: CreateUserFromProviderDto,
+    UserRoleId: [number]
+  ): UserEntity {
+    const entity = new UserEntity()
+    entity.fullName = dto.fullName
+    entity.email = dto.email
+    entity.provider = dto.provider
+    entity.providerAccountId = dto.providerAccountId
+
+    entity.roles = Promise.resolve(
+      UserRoleId.map((id) => new RoleEntity({ id: id }))
+    )
+    entity.status = UserStatus.Active
+    entity.isSuperUser = false
+
     return entity
   }
 }

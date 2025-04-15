@@ -22,6 +22,7 @@ export class RoleMapper {
       (await entity.permissions).map(PermissionMapper.toDto)
     )
     dto.active = entity.active
+
     return dto
   }
 
