@@ -70,5 +70,9 @@ export enum ErrorMessage {
   // Wishlist
   WISHLIST_NOT_FOUND = 'Wishlist not found',
   // Notification
-  NOTIFICATION_NOT_FOUND = 'Không tìm thấy thông báo'
+  NOTIFICATION_NOT_FOUND = 'Không tìm thấy thông báo',
+
+  //Provider
+  PROVIDER_ACCOUNT_ID_NOT_EMPTY = 'Provider id not empty',
+  PROVIDER_NOT_EMPTY = 'Provider not empty'
 }

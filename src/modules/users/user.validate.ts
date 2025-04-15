@@ -5,6 +5,7 @@ import { ErrorMessage } from 'src/interfaces/enums/error-message.enum'
 import { CreateUserRequestDto } from './dtos'
 import { UpdateUserIdRequestDto } from './dtos/update-user-id.request.dto'
 import { UsersRepository } from './repositories/user.repository'
+import { CreateUserFromProviderDto } from './dtos/create-user-from-provider.dto'
 
 @Injectable()
 export class UserValidate {
@@ -15,6 +16,29 @@ export class UserValidate {
       throw new CommonException(
         ErrorType.EMAIL_PHONE_NOT_EMPTY,
         ErrorMessage.EMAIL_PHONE_NOT_EMPTY
+      )
+    }
+  }
+
+  public static validateUserProvider(userDto: CreateUserFromProviderDto) {
+    if (!userDto.email) {
+      throw new CommonException(
+        ErrorType.EMAIL_NOT_EMPTY,
+        ErrorMessage.EMAIL_NOT_EMPTY
+      )
+    }
+
+    if (!userDto.provider) {
+      throw new CommonException(
+        ErrorType.PROVIDER_NOT_EMPTY,
+        ErrorMessage.PROVIDER_NOT_EMPTY
+      )
+    }
+
+    if (!userDto.providerAccountId) {
+      throw new CommonException(
+        ErrorType.PROVIDER_ACCOUNT_ID_NOT_EMPTY,
+        ErrorMessage.PROVIDER_ACCOUNT_ID_NOT_EMPTY
       )
     }
   }

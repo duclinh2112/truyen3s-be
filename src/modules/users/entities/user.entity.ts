@@ -93,7 +93,7 @@ export class UserEntity extends BaseEntity {
   @Column({
     name: 'password',
     type: 'varchar',
-    nullable: false
+    nullable: true
   })
   password: string
 
@@ -112,6 +112,21 @@ export class UserEntity extends BaseEntity {
     default: UserStatus.Active
   })
   status: string
+
+  @Column({
+    name: 'provider',
+    type: 'varchar',
+    nullable: true,
+    default: 'credentials'
+  })
+  provider: string
+
+  @Column({
+    name: 'provider_account_id',
+    type: 'varchar',
+    nullable: true
+  })
+  providerAccountId: string
 
   @OneToMany(() => ReviewEntity, (reviews) => reviews.user)
   @JoinColumn({ name: 'review_id' })

@@ -42,6 +42,7 @@ import { JwtAuthGuard } from './guards'
 import { AuthService, TokenService } from './services'
 import { UpdateAccountRequestDto } from '../users/dtos/update-account.request.dto'
 import { ChangePasswordDto } from '../users/dtos/change-password.dto'
+import { CreateUserFromProviderDto } from '../users/dtos/create-user-from-provider.dto'
 
 @ApiTags('Auth')
 @ApiBearerAuth(TOKEN_NAME)
@@ -61,6 +62,17 @@ export class AuthController {
     @Body(ValidationPipe) authCredentialsDto: AuthCredentialsRequestDto
   ): Promise<LoginResponseDto> {
     return this.authService.login(authCredentialsDto)
+  }
+
+  @ApiOperation({ description: 'User authentication' })
+  @ApiOkResponse({ description: 'Successfully authenticated user' })
+  @ApiUnauthorizedResponse({ description: 'Invalid credentials' })
+  @ApiInternalServerErrorResponse({ description: 'Server error' })
+  @Post('login-provider')
+  loginProvider(
+    @Body(ValidationPipe) userProviderDto: CreateUserFromProviderDto
+  ): Promise<LoginResponseDto> {
+    return this.authService.loginProvider(userProviderDto)
   }
 
   @ApiOperation({ description: 'User Register' })
