@@ -8,6 +8,7 @@ import { UpdateUserRequestDto } from './dtos/update-user.request.dto'
 import { UserEntity } from './entities/user.entity'
 import { AssetsEntity } from '../assets/assets.entity'
 import { CreateUserFromProviderDto } from './dtos/create-user-from-provider.dto'
+import { AuthorMapper } from '../authors/author.mapper'
 
 export class UserMapper {
   public static async toDto(
@@ -30,6 +31,11 @@ export class UserMapper {
     dto.roles = await Promise.all((await entity.roles).map(RoleMapper.toDto))
     dto.status = entity.status
     dto.isSuperUser = entity.isSuperUser
+
+    if (entity.authorProfile) {
+      dto.authorProfile = await AuthorMapper.toDto(entity.authorProfile)
+    }
+
     return dto
   }
 

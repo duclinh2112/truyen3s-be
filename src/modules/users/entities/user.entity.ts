@@ -5,13 +5,16 @@ import {
   JoinTable,
   PrimaryGeneratedColumn,
   JoinColumn,
-  OneToMany
+  OneToMany,
+  OneToOne
 } from 'typeorm'
 import { BaseEntity } from 'src/database/entities/base.entity'
 import { PermissionEntity } from '../../permissions/permission.entity'
 import { RoleEntity } from '../../roles/role.entity'
 import { UserStatus } from '../../../interfaces/enums/user-status.enum'
 import { ReviewEntity } from 'src/modules/reviews/review.entity'
+import { AuthorEntity } from 'src/modules/authors/entities/author.entity'
+import { ComicsEntity } from 'src/modules/comics/entities/comic.entity'
 
 @Entity({ schema: 'admin', name: 'users' })
 export class UserEntity extends BaseEntity {
@@ -165,6 +168,12 @@ export class UserEntity extends BaseEntity {
     }
   })
   permissions: Promise<PermissionEntity[]>
+
+  @OneToOne(() => AuthorEntity, (author) => author.user)
+  authorProfile: AuthorEntity
+
+  @OneToMany(() => ComicsEntity, (comics) => comics.author)
+  comics: ComicsEntity
 
   constructor(user?: Partial<UserEntity>) {
     super()

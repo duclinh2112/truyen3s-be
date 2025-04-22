@@ -17,6 +17,7 @@ import { NotificationModule } from './modules/notifications/notification.module'
 import { ComicsModule } from './modules/comics/comics.module'
 import { ChildCategoriesModule } from './modules/child.categories/child.categories.module'
 import { ChaptersModule } from './modules/chapters/chapters.module'
+import { AuthorsModule } from './modules/authors/authors.module'
 
 @Module({
   imports: [
@@ -41,7 +42,8 @@ import { ChaptersModule } from './modules/chapters/chapters.module'
     PermissionsModule,
     ComicsModule,
     ChildCategoriesModule,
-    ChaptersModule
+    ChaptersModule,
+    AuthorsModule
     // LoggerModule
   ],
   providers: [Unique]

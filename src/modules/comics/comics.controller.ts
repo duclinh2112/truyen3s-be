@@ -40,7 +40,7 @@ export class ComicsController {
   constructor(private readonly comicsService: ComicsService) {}
 
   @UseGuards(JwtAuthGuard, PermissionsGuard)
-  @Permissions(EPermissions.ADMIN_ROOT)
+  @Permissions(EPermissions.ADMIN_ROOT, EPermissions.ADMIN_ACCESS_COMICS_CREATE)
   @ApiOperation({
     summary: 'Create new comic',
     description: 'Em là của anh'
@@ -86,8 +86,8 @@ export class ComicsController {
     return this.comicsService.findBySlug(params.slug)
   }
 
-  @UseGuards(JwtAuthGuard)
-  @Permissions(EPermissions.ADMIN_ROOT)
+  @UseGuards(JwtAuthGuard, PermissionsGuard)
+  @Permissions(EPermissions.ADMIN_ROOT, EPermissions.ADMIN_ACCESS_COMICS_UPDATE)
   @ApiParam({ name: 'id', example: 1, required: true })
   @ApiOperation({ description: 'Update Comic' })
   @Patch(':id')
@@ -98,8 +98,8 @@ export class ComicsController {
     return this.comicsService.update(+id, updateComicDto)
   }
 
-  @UseGuards(JwtAuthGuard)
-  @Permissions(EPermissions.ADMIN_ROOT)
+  @UseGuards(JwtAuthGuard, PermissionsGuard)
+  @Permissions(EPermissions.ADMIN_ROOT, EPermissions.ADMIN_ACCESS_COMICS_UPDATE)
   @ApiParam({ name: 'id', example: 1, required: true })
   @ApiOperation({ description: 'Update Status Comic' })
   @Patch('update-status/:id')
@@ -110,8 +110,8 @@ export class ComicsController {
     return this.comicsService.updateStatus(+id, updateStatusComicDto)
   }
 
-  @UseGuards(JwtAuthGuard)
-  @Permissions(EPermissions.ADMIN_ROOT)
+  @UseGuards(JwtAuthGuard, PermissionsGuard)
+  @Permissions(EPermissions.ADMIN_ROOT, EPermissions.ADMIN_ACCESS_COMICS_DELETE)
   @ApiParam({ name: 'id', example: 1, required: true })
   @ApiOperation({ description: 'Delete Comic' })
   @Delete(':id')

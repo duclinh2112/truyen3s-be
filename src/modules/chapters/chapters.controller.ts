@@ -7,7 +7,8 @@ import {
   Param,
   Delete,
   ValidationPipe,
-  Query
+  Query,
+  UseGuards
 } from '@nestjs/common'
 import { ChaptersService } from './chapters.service'
 import { CreateChapterDto } from './dto/create-chapter.dto'
@@ -16,12 +17,16 @@ import { ApiOperation, ApiParam, ApiQuery, ApiTags } from '@nestjs/swagger'
 import { PaginationParams } from '@common/decorators'
 import { PaginationRequest } from '@common/interfaces'
 import { QueryRequest } from 'src/helpers/query.request'
+import { JwtAuthGuard, Permissions, PermissionsGuard } from '@auth'
+import { EPermissions } from 'src/interfaces/enums/permissions.enum'
 
 @ApiTags('Chapter Controller')
 @Controller('chapters')
 export class ChaptersController {
   constructor(private readonly chaptersService: ChaptersService) {}
 
+  @UseGuards(JwtAuthGuard, PermissionsGuard)
+  @Permissions(EPermissions.ADMIN_ROOT, EPermissions.ADMIN_ACCESS_COMICS_CREATE)
   @ApiOperation({
     summary: 'Create new chapter',
     description: 'Create new chapter'
@@ -80,6 +85,8 @@ export class ChaptersController {
     return this.chaptersService.read(slug, +id)
   }
 
+  @UseGuards(JwtAuthGuard, PermissionsGuard)
+  @Permissions(EPermissions.ADMIN_ROOT, EPermissions.ADMIN_ACCESS_COMICS_UPDATE)
   @ApiParam({ name: 'id', example: 1, required: true })
   @ApiOperation({ description: 'Update Chapter' })
   @Patch(':id')
@@ -90,6 +97,8 @@ export class ChaptersController {
     return this.chaptersService.update(+id, updateChapterDto)
   }
 
+  @UseGuards(JwtAuthGuard, PermissionsGuard)
+  @Permissions(EPermissions.ADMIN_ROOT, EPermissions.ADMIN_ACCESS_COMICS_DELETE)
   @Delete(':id')
   remove(@Param('id') id: string) {
     return this.chaptersService.remove(+id)

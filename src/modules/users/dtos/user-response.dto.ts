@@ -2,6 +2,7 @@ import { ApiProperty } from '@nestjs/swagger'
 import { PermissionResponseDto } from '../../permissions/dtos'
 import { RoleResponseDto } from '../../roles/dtos'
 import { AssetsEntity } from 'src/modules/assets/assets.entity'
+import { ResponseAuthorDto } from 'src/modules/authors/dto/response-author.dto'
 
 export class UserResponseDto {
   @ApiProperty()
@@ -48,4 +49,7 @@ export class UserResponseDto {
 
   @ApiProperty()
   status: string
+
+  @ApiProperty({ type: () => ResponseAuthorDto, required: false })
+  authorProfile?: ResponseAuthorDto
 }
