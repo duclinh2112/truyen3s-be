@@ -20,5 +20,10 @@ export enum EPermissions {
   ADMIN_ACCESS_PRODUCTS_LIST = 'admin.access.products.list',
   ADMIN_ACCESS_PRODUCTS_READ = 'admin.access.products.read',
   ADMIN_ACCESS_PRODUCTS_CREATE = 'admin.access.products.create',
-  ADMIN_ACCESS_PRODUCTS_UPDATE = 'admin.access.products.update'
+  ADMIN_ACCESS_PRODUCTS_UPDATE = 'admin.access.products.update',
+  // Comics
+  ADMIN_ACCESS_COMICS_LIST = 'admin.access.comics.list',
+  ADMIN_ACCESS_COMICS_CREATE = 'admin.access.comics.create',
+  ADMIN_ACCESS_COMICS_UPDATE = 'admin.access.comics.update',
+  ADMIN_ACCESS_COMICS_DELETE = 'admin.access.comics.delete'
 }

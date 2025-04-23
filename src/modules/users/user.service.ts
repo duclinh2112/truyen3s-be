@@ -20,7 +20,6 @@ import { UserEntity } from './entities/user.entity'
 import { UsersRepository } from './repositories/user.repository'
 import { UserMapper } from './user.mapper'
 import { UserValidate } from './user.validate'
-import { error } from 'console'
 import { AssetsRepository } from '../assets/assets.repository'
 
 @Injectable()

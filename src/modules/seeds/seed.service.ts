@@ -131,6 +131,33 @@ const rolePermissions = {
       slug: EPermissions.ADMIN_ACCESS_USERS_UPDATE,
       description: 'Update users'
     }
+  ],
+  Author: [
+    { slug: EPermissions.ADMIN_ACCESS_USERS_READ, description: 'Read users' },
+    {
+      slug: EPermissions.ADMIN_ACCESS_USERS_CREATE,
+      description: 'Create users'
+    },
+    {
+      slug: EPermissions.ADMIN_ACCESS_USERS_UPDATE,
+      description: 'Update users'
+    },
+    {
+      slug: EPermissions.ADMIN_ACCESS_COMICS_LIST,
+      description: 'Get Comics'
+    },
+    {
+      slug: EPermissions.ADMIN_ACCESS_COMICS_CREATE,
+      description: 'Create Comic'
+    },
+    {
+      slug: EPermissions.ADMIN_ACCESS_COMICS_UPDATE,
+      description: 'Get Comics'
+    },
+    {
+      slug: EPermissions.ADMIN_ACCESS_COMICS_DELETE,
+      description: 'Read Comics'
+    }
   ]
 }
 

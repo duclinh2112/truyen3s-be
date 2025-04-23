@@ -46,7 +46,7 @@ export class ComicsEntity extends BaseEntity {
   })
   price: number
 
-  @ManyToOne(() => UserEntity)
+  @ManyToOne(() => UserEntity, (user) => user.comics)
   @JoinColumn({ name: 'author_id' })
   author: UserEntity
 

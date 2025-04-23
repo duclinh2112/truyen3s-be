@@ -44,6 +44,7 @@ export class UsersRepository extends Repository<UserEntity> {
 
   async findUserById(id: number): Promise<UserEntity> {
     return await this.createQueryBuilder('u')
+      .leftJoinAndSelect('u.authorProfile', 'authorProfile')
       .leftJoinAndSelect('u.roles', 'r', 'r.active = true')
       .leftJoinAndSelect('r.permissions', 'rp', 'rp.active = true')
       .leftJoinAndSelect('u.permissions', 'p', 'p.active = true')
