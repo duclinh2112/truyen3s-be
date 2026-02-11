@@ -1,4 +1,4 @@
 import { UserResponseDto } from './user-response.dto'
-import { CreateUserRequestDto } from './create-user-request.dto'
+import { RegisterUserRequestDto } from './register-user-request.dto'
 
-export { UserResponseDto, CreateUserRequestDto }
+export { UserResponseDto, RegisterUserRequestDto }

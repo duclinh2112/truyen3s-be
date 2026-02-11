@@ -22,7 +22,7 @@ import {
 } from '../dtos'
 import { TokenService } from './token.service'
 import { RefreshVerifyAccountResponseDto } from '../dtos/refresh-verify-account.response.dto'
-import { CreateUserRequestDto, UserResponseDto } from 'src/modules/users/dtos'
+import { RegisterUserRequestDto, UserResponseDto } from 'src/modules/users/dtos'
 import { UserValidate } from 'src/modules/users/user.validate'
 import { TimeoutError } from 'rxjs'
 import { ERoles } from 'src/interfaces/enums/roles.enum'
@@ -104,7 +104,7 @@ export class AuthService {
   }
 
   public async register(
-    userDto: CreateUserRequestDto
+    userDto: RegisterUserRequestDto
   ): Promise<UserResponseDto> {
     UserValidate.validateUser(userDto)
     const UserRole = await this.rolesRepository.findOne({ name: ERoles.USER })

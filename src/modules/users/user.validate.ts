@@ -2,7 +2,7 @@ import { CommonException } from '@common/exceptions'
 import { Injectable } from '@nestjs/common'
 import { ErrorType } from 'src/interfaces/enums'
 import { ErrorMessage } from 'src/interfaces/enums/error-message.enum'
-import { CreateUserRequestDto } from './dtos'
+import { RegisterUserRequestDto } from './dtos'
 import { UpdateUserIdRequestDto } from './dtos/update-user-id.request.dto'
 import { UsersRepository } from './repositories/user.repository'
 import { CreateUserFromProviderDto } from './dtos/create-user-from-provider.dto'
@@ -11,7 +11,7 @@ import { CreateUserFromProviderDto } from './dtos/create-user-from-provider.dto'
 export class UserValidate {
   constructor(private usersRepository: UsersRepository) {}
 
-  public static validateUser(userDto: CreateUserRequestDto) {
+  public static validateUser(userDto: RegisterUserRequestDto) {
     if (!userDto.phone && !userDto.email) {
       throw new CommonException(
         ErrorType.EMAIL_PHONE_NOT_EMPTY,

@@ -29,7 +29,7 @@ import {
 import { QueryRequest } from 'src/helpers/query.request'
 import { EPermissions } from 'src/interfaces/enums/permissions.enum'
 import { UserResponseDto } from './dtos'
-import { CreateUserRequestDto } from './dtos/create-user-request.dto'
+import { RegisterUserRequestDto } from './dtos/register-user-request.dto'
 import { UpdateUserIdRequestDto } from './dtos/update-user-id.request.dto'
 import { UpdateUserRequestDto } from './dtos/update-user.request.dto'
 import { UserEntity } from './entities/user.entity'
@@ -72,7 +72,7 @@ export class UserController {
   @ApiConflictResponse({ description: 'User already exists' })
   @Post()
   public createUser(
-    @Body(ValidationPipe) userDto: CreateUserRequestDto
+    @Body(ValidationPipe) userDto: RegisterUserRequestDto
   ): Promise<UserResponseDto> {
     return this.usersService.createUser(userDto)
   }
