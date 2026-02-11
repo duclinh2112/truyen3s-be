@@ -2,13 +2,15 @@ import { RoleMapper } from 'src/modules/roles/role.mapper'
 import { UserStatus } from '../../interfaces/enums/user-status.enum'
 import { PermissionMapper } from '../permissions/permission.mapper'
 import { RoleEntity } from '../roles/role.entity'
-import { CreateUserRequestDto, UserResponseDto } from './dtos'
+import { RegisterUserRequestDto, UserResponseDto } from './dtos'
 import { UpdateUserIdRequestDto } from './dtos/update-user-id.request.dto'
 import { UpdateUserRequestDto } from './dtos/update-user.request.dto'
 import { UserEntity } from './entities/user.entity'
 import { AssetsEntity } from '../assets/assets.entity'
 import { CreateUserFromProviderDto } from './dtos/create-user-from-provider.dto'
 import { AuthorMapper } from '../authors/author.mapper'
+import { CreateUserRequestDto } from './dtos/create-user-request.dto'
+import { generatePassword } from '@common/functions'
 
 export class UserMapper {
   public static async toDto(
@@ -64,8 +66,28 @@ export class UserMapper {
     return dto
   }
 
-  public static toCreateEntity(
+  public static toCreateNewUserEntity(
     dto: CreateUserRequestDto,
+    roleIds: [number]
+  ): UserEntity {
+    const entity = new UserEntity()
+    entity.fullName = dto.fullName
+    entity.email = dto.email
+    entity.password = generatePassword()
+    entity.photoId = dto.photoId
+
+    entity.roles = Promise.resolve(
+      roleIds.map((id) => new RoleEntity({ id: id }))
+    )
+
+    entity.status = dto.status || UserStatus.Inactive
+    entity.isSuperUser = false
+
+    return entity
+  }
+
+  public static toCreateEntity(
+    dto: RegisterUserRequestDto,
     UserRoleId: [number]
   ): UserEntity {
     const entity = new UserEntity()

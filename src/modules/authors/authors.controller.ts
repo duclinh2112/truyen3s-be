@@ -54,7 +54,7 @@ export class AuthorsController {
   @ApiQuery({
     name: 'filter',
     required: false,
-    example: '{"q":"nguyenvana"}'
+    example: ''
   })
   @ApiQuery({
     name: 'sort',

@@ -6,16 +6,17 @@
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
     "allowSyntheticDefaultImports": true,
+    "strictPropertyInitialization": false,
     "target": "es2017",
     "sourceMap": true,
     "outDir": "./dist",
     "baseUrl": "./",
     "incremental": true,
-    "paths":{
-      "@common/*":["src/common/*"],
-      "@config":["src/config"],
-      "@auth":["src/modules/auth"],
-      "@database/*":["src/database/*"],
+    "paths": {
+      "@common/*": ["src/common/*"],
+      "@config": ["src/config"],
+      "@auth": ["src/modules/auth"],
+      "@database/*": ["src/database/*"]
     }
   }
 }

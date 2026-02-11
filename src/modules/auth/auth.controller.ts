@@ -20,7 +20,7 @@ import {
   ApiTags,
   ApiUnauthorizedResponse
 } from '@nestjs/swagger'
-import { CreateUserRequestDto, UserResponseDto } from '../users/dtos'
+import { RegisterUserRequestDto, UserResponseDto } from '../users/dtos'
 import { EmailRequestDto } from '../users/dtos/refresh-verify.request.dto'
 import { ResetPasswordRequestDto } from '../users/dtos/reset-password.request.dto'
 import { VerifyCodeResetRequestDto } from '../users/dtos/verify-code-reset.request.dto'
@@ -80,7 +80,7 @@ export class AuthController {
   @ApiConflictResponse({ description: 'User already exists' })
   @Post('register')
   public register(
-    @Body(ValidationPipe) userDto: CreateUserRequestDto
+    @Body(ValidationPipe) userDto: RegisterUserRequestDto
   ): Promise<UserResponseDto> {
     return this.authService.register(userDto)
   }
@@ -134,7 +134,7 @@ export class AuthController {
   @Get('token/verify')
   verifyAccount(
     @Query() query: VerifyAccountRequestDto,
-    @Res() res
+    @Res() res: Response
   ): Promise<VerifyAccountResponseDto> {
     return this.tokenService.verifyAccount(query, res)
   }

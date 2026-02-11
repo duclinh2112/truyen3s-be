@@ -1,4 +1,5 @@
 import { BaseEntity } from '@database/entities'
+import { AuthorStatus } from 'src/interfaces/enums/author-status.enum'
 import { UserEntity } from 'src/modules/users/entities/user.entity'
 import {
   Column,
@@ -25,4 +26,12 @@ export class AuthorEntity extends BaseEntity {
     nullable: false
   })
   nickname: string
+
+  @Column({
+    name: 'status',
+    type: 'varchar',
+    nullable: false,
+    default: AuthorStatus.PENDING
+  })
+  status: string
 }

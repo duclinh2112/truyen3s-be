@@ -1,20 +1,16 @@
-import { Unique } from '@common/validations/unique/unique'
 import { ApiProperty } from '@nestjs/swagger'
 import {
-  IsAlphanumeric,
-  IsDateString,
   IsEmail,
   IsNotEmpty,
   IsOptional,
-  Length,
   Matches,
   MaxLength,
-  Validate,
-  ValidateIf
+  Validate
 } from 'class-validator'
-import { regex } from 'src/helpers/regex.helper'
 import { ErrorMessage } from 'src/interfaces/enums/error-message.enum'
+import { Unique } from 'typeorm'
 import { UserEntity } from '../entities/user.entity'
+import { regex } from 'src/helpers/regex.helper'
 
 export class CreateUserRequestDto {
   @IsNotEmpty({ message: ErrorMessage.FULL_NOT_EMPTY })
@@ -24,26 +20,6 @@ export class CreateUserRequestDto {
   })
   fullName: string
 
-  @ApiProperty({
-    example: 1
-  })
-  photoId: number
-
-  @IsOptional()
-  @IsDateString(undefined, { message: ErrorMessage.BIRTHDAY_STRING })
-  @ApiProperty({
-    example: new Date()
-  })
-  birthday: Date
-
-  @IsOptional()
-  @Validate(Unique, [UserEntity])
-  @Matches(regex.phoneRegex, { message: ErrorMessage.PHONE_REGEX })
-  @ApiProperty({
-    example: '0346718111'
-  })
-  phone: string
-
   @IsNotEmpty({ message: ErrorMessage.EMAIL_NOT_EMPTY })
   @IsEmail(undefined, { message: ErrorMessage.EMAIL_VALID })
   @Validate(Unique, [UserEntity])
@@ -52,11 +28,21 @@ export class CreateUserRequestDto {
   })
   email: string
 
-  @Matches(regex.passwordRegex, { message: ErrorMessage.PASSWORD_REGEX })
-  @Length(6, 20, { message: ErrorMessage.PASSWORD_LENGTH })
-  @IsNotEmpty({ message: ErrorMessage.PASSWORD_NOT_EMPTY })
+  @IsOptional()
   @ApiProperty({
-    example: 'Khoqua226'
+    example: 'User'
   })
-  password: string
+  role: string
+
+  @IsOptional()
+  @Matches(regex.statusRegex, { message: ErrorMessage.STATUS_REGEX })
+  @ApiProperty({
+    example: 'active'
+  })
+  status: string
+
+  @ApiProperty({
+    example: 1
+  })
+  photoId: number
 }

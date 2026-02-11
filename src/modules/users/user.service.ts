@@ -13,7 +13,7 @@ import { JwtPayload } from '../auth/dtos'
 import { MailService } from '../mail/mail.service'
 import { RolesRepository } from '../roles/role.repository'
 import { UserResponseDto } from './dtos'
-import { CreateUserRequestDto } from './dtos/create-user-request.dto'
+import { RegisterUserRequestDto } from './dtos/register-user-request.dto'
 import { UpdateUserIdRequestDto } from './dtos/update-user-id.request.dto'
 import { UpdateUserRequestDto } from './dtos/update-user.request.dto'
 import { UserEntity } from './entities/user.entity'
@@ -21,6 +21,7 @@ import { UsersRepository } from './repositories/user.repository'
 import { UserMapper } from './user.mapper'
 import { UserValidate } from './user.validate'
 import { AssetsRepository } from '../assets/assets.repository'
+import { CreateUserRequestDto } from './dtos/create-user-request.dto'
 
 @Injectable()
 export class UserService {
@@ -54,11 +55,13 @@ export class UserService {
   public async createUser(
     userDto: CreateUserRequestDto
   ): Promise<UserResponseDto> {
-    UserValidate.validateUser(userDto)
+    // UserValidate.validateUser(userDto)
     const UserRole = await this.rolesRepository.findOne({ name: ERoles.USER })
     if (UserRole) {
       try {
-        let userEntity = UserMapper.toCreateEntity(userDto, [UserRole.id])
+        let userEntity = UserMapper.toCreateNewUserEntity(userDto, [
+          UserRole.id
+        ])
         userEntity.password = await HashHelper.encrypt(userEntity.password)
         userEntity = await this.usersRepository.save(userEntity)
         const payload: JwtPayload = {
